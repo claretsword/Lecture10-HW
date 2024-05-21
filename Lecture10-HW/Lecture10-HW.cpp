@@ -81,8 +81,7 @@ void render()
     }
     glEnd();
 
-    // 첫 번째 작은 원의 외곽선 색상 (RGB: 200, 150, 100)
-    glColor3ub(200, 150, 100); // 조금 더 진한 색으로 작은 원의 외곽선을 그립니다
+    
     glBegin(GL_LINE_LOOP); // 외곽선을 그리기 위해 GL_LINE_LOOP을 사용합니다.
     for (int i = 0; i < numSegments; ++i)
     {
@@ -93,8 +92,9 @@ void render()
     }
     glEnd();
 
-    // 추가 작은 원의 채우기 색상 (RGB: 255, 230, 153)
-    glColor3ub(255, 230, 153); // 밝은 색으로 추가 작은 원을 채움
+    
+    // 추가 작은 원의 채우기 색상 (RGB: 255, 192, 0)
+    glColor3ub(255, 192, 0); // 밝은 색으로 추가 작은 원을 채움
     float extraSmallCenterX = 0.2f * scaleFactor; // 큰 원의 중심에서 오른쪽으로 이동
     float extraSmallCenterY = -0.25f * scaleFactor; // 큰 원의 중심에서 더 아래로 이동
 
@@ -114,8 +114,9 @@ void render()
     }
     glEnd();
 
-    // 추가 작은 원의 외곽선 색상 (RGB: 200, 150, 100)
-    glColor3ub(200, 150, 100); // 조금 더 진한 색으로 추가 작은 원의 외곽선을 그립니다
+    
+   
+    // 조금 더 진한 색으로 추가 작은 원의 외곽선을 그립니다
     glBegin(GL_LINE_LOOP); // 외곽선을 그리기 위해 GL_LINE_LOOP을 사용합니다.
     for (int i = 0; i < numSegments; ++i)
     {
@@ -125,9 +126,46 @@ void render()
         glVertex2f(x, y); // 정점 추가
     }
     glEnd();
+
     glPopMatrix(); // 변환 행렬 복원
 
     glPopMatrix(); // 자전 변환 복원
+    
+
+    // 지구의 중심 좌표 및 크기 설정
+    float earthCenterX = 0.8f * scaleFactor; // 태양에서 오른쪽으로 이동
+    float earthCenterY = 0.0f * scaleFactor; // 태양에서 조금 위로 이동
+    float earthSize = 0.2f * scaleFactor; // 정사각형의 크기 설정
+
+    // 변환 적용: 이동
+    glPushMatrix();
+    glTranslatef(earthCenterX, earthCenterY, 0.0f);
+
+    // 정사각형의 선 색상 (검은색)
+    glColor3ub(0, 0, 0); // 검은색으로 선을 그립니다.
+
+    // 정사각형의 내부 색상 (RGB: 91, 155, 213)
+    // 밝은 색으로 정사각형을 채웁니다.
+    glBegin(GL_POLYGON);
+    glColor3ub(91, 155, 213);
+    // 정사각형의 네 꼭지점을 추가합니다.
+    glVertex2f(-earthSize / 2, -earthSize / 2); // 왼쪽 아래
+    glVertex2f(earthSize / 2, -earthSize / 2); // 오른쪽 아래
+    glVertex2f(earthSize / 2, earthSize / 2); // 오른쪽 위
+    glVertex2f(-earthSize / 2, earthSize / 2); // 왼쪽 위
+    glEnd();
+
+    // 정사각형의 외곽선 색상 (검은색)
+    glColor3ub(0, 0, 0); // 검은색으로 외곽선을 그립니다.
+    glBegin(GL_LINE_LOOP);
+    // 정사각형의 네 꼭지점을 추가합니다.
+    glVertex2f(-earthSize / 2, -earthSize / 2); // 왼쪽 아래
+    glVertex2f(earthSize / 2, -earthSize / 2); // 오른쪽 아래
+    glVertex2f(earthSize / 2, earthSize / 2); // 오른쪽 위
+    glVertex2f(-earthSize / 2, earthSize / 2); // 왼쪽 위
+    glEnd();
+
+    glPopMatrix(); // 변환 행렬 복원
 }
 
 int main(void)
@@ -137,7 +175,7 @@ int main(void)
         return -1;
 
     GLFWwindow* window;
-    window = glfwCreateWindow(1280, 768, "MuSoeunEngine", NULL, NULL);
+    window = glfwCreateWindow(1600, 800, "MuSoeunEngine", NULL, NULL);
 
     if (!window)
     {
